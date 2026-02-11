@@ -94,6 +94,7 @@ jobs:
           tag=mediatek-filogic-openwrt-24.10.5
 
           docker run --rm -i \
+            --user root \
             -v "${{ github.workspace }}/bin:/home/build/immortalwrt/bin" \
             -v "${{ github.workspace }}/glinet:/home/build/immortalwrt/files/etc/uci-defaults" \
             -v "${{ github.workspace }}/custom:/home/build/immortalwrt/files/etc/config" \
