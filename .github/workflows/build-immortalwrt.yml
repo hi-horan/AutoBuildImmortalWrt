@@ -1,5 +1,8 @@
 name: Build ImmortalWrt
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -122,15 +125,11 @@ jobs:
           extra_content_ip="#### 管理地址 $custom_router_ip"
           echo -e "\n $extra_content_ip" >> ${{ github.workspace }}/mediatek-filogic/info.md
 
-
       - name: Upload ImmortalWrt as release assets
-        uses: softprops/action-gh-release@v2.2.1
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.profile }}
-          name: ImmortalWrt
-          body_path: ${{ github.workspace }}/mediatek-filogic/info.md
+          tag_name: ${{ github.event.inputs.profile }}-${{ github.run_id }}
+          name: ImmortalWrt-${{ github.event.inputs.profile }}-${{ github.run_id }}
+          body_path: mediatek-filogic/info.md
           files: |
-            ${{ github.workspace }}/bin/targets/${{ env.platform }}/*
-          token: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            bin/targets/${{ env.platform }}/*
